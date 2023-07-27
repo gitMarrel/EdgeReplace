@@ -17,50 +17,50 @@ rem -------------------------------------------------------------------------
 
 @echo off
 setlocal enabledelayedexpansion
-echo 1
-echo %1
+
+:: Output Paramneters for Debugging/Development purposes
+echo 1 %1
 echo ----------------------------------------
-echo 2
-echo %2
+echo 2 %2
 echo ---------------------------------------- 
-echo 3
-echo %3
+echo 3 %3
 echo ---------------------------------------- 
-echo 4
-echo %4
+echo 4 %4
 echo ---------------------------------------- 
-echo 5
-echo %5
+echo 5 %5
 echo ---------------------------------------- 
-echo 6
-echo %6
+echo 6 %6
 echo ---------------------------------------- 
 
 
+:: Depending of how edge gets called (Link/Startmenu or F1-Help) there are two different ways the parameters can be arranged.
+:: This tests for an "http" at the start of Parameter 4 to distinguish the two variants.
 set _teststr=%4
-
 if /i "%_teststr:~0,4%"=="http" goto paramfour 
 
 
 
 :paramthreefour
-echo 34
+:: This is how the F1-help calls Edge
+:: Parameter 3 contains the base url and parameter 4 the LinkId
+:: Just remove the "microsoft-edge:"-prefix and put an equals  between %3 and %4 to get the final link
+echo Variant: Param34
 echo ---------------------------------------------------
 set _stri="%3=%4"
-set dd=":"
 set _url=!_stri:microsoft-edge:=!
 
 goto startff
 
 :paramfour
+:: This is how the start menu or the new (horrible) Outlook links operate.
+:: Here the entire URL can be found in parameter 3, you just have to reverse the escaping, which is not easily possible in batch, but can be done using powershell.
+echo Variant: Param3
+echo ---------------------------------------------------
 
 set _stri=%4
-echo %_stri%
-set _url=!_stri:%%3A=:!
-set _url=!_url:%%2F=/!
-set _url=!_url:%%3F=\?!
-set _url=!_url:%%3D=^=!
-set _url=!_url:%%26=^&!
+
+for /f "delims=" %%a in ('powershell -Executionpolicy Bypass -Command "[System.Net.WebUtility]::UrlDecode('%_stri%')"') DO set "_url=%%a"
+
 goto startff
 
 
@@ -71,4 +71,5 @@ goto startff
 echo "%_url%"
 start "" "C:\Program Files\Mozilla Firefox\firefox.exe" "%_url%"
 
-rem pause
+:: Uncomment the "pause" to leave the cmd window open and see how the parameters are put together
+:: pause

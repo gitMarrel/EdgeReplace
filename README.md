@@ -1,7 +1,7 @@
 # EdgeReplace
 EdgeReplace is a simple Batch-Script that will redirect calls to MS Edge to a different browser.
 ## Usage Instructions
-1) Edit the start-command found near the end of edge_replace.bat to point to your default browser.
+1) Edit the start-command found near the end of edge_replace.bat to point to your default browser  (in my case Firefox).
 2) Place the edited edge_replace.bat somewhere on your drive, where it's not gonna get lost (e.g. C:\edge_replace.bat)
 3) Open the Registry Editor (regedit) and go to the following path:
 ```
