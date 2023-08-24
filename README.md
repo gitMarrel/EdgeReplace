@@ -10,3 +10,4 @@ Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image F
 4) If a key `msedge.exe` is present, open it. If not, create one and open it.
 5) In the right panel, create a new String called `Debugger` and assign it the path to your edge_replace.bat-file (in this case: `"C:\edge_replace.bat"`. Please note the quotes around the path!)
 6) That's it. everything should now open in the browser you entered in step 1. To revert everything back to how it was before, simply delete the `Debugger`-entry created in step 5.
+
